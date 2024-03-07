@@ -1,0 +1,6 @@
+{
+    "name": "B-L475E-IOT01",
+    "build": {
+        "includeDir": "B-L475E-IOT01"
+    }
+}
