@@ -8,7 +8,6 @@ class SensiPet
 {
   private:
     SensiPetStats pet_stats;
-
     SensiPetState *current_state = nullptr;
 
   public:

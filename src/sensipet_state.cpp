@@ -14,3 +14,8 @@ SensiPetState *SensiPetState::get_transition(Action action_type)
 
     return state_transistions[action_type];
 }
+
+EventQueue *SensiPetState::get_event_queue()
+{
+    return &event_queue;
+}
