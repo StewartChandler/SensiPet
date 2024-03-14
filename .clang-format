@@ -1,7 +1,5 @@
 ---
 BasedOnStyle:    llvm
-IndentWidth:        4
----
-Language:         Cpp
+IndentWidth:     4
 ColumnLimit:     100
-...
+---
