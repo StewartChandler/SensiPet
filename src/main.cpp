@@ -19,9 +19,9 @@ class I2CPreInit : public I2C
 I2CPreInit gI2C(PB_9, PB_8);
 Adafruit_SSD1306_I2c gOled(gI2C, LED1, 0x78, 64, 128);
 
-// wanted to make constexpr but constexpr std::array is c++17 
-const std::array<uint8_t, 128 * 64 / 8> gen_circle_image(std::size_t r) {
+constexpr static std::array<uint8_t, 128 * 64 / 8> circle_image{[]() constexpr {
     std::array<uint8_t, 128 * 64 / 8> buf{0};
+    const std::size_t r = 20;
     const std::size_t r_sqrd = r * r;
 
     for (std::size_t y = 0; y < 64; y++) {
@@ -37,10 +37,8 @@ const std::array<uint8_t, 128 * 64 / 8> gen_circle_image(std::size_t r) {
         }
     }
 
-    return buf;
-}
-
-const static std::array<uint8_t, 128 * 64 / 8> circle_image{gen_circle_image(10)};
+    return std::move(buf);
+}};
 
 EventQueue eq;
 
@@ -73,6 +71,7 @@ void screen_run() {
             gOled.display();
             break;
         case SCREEN_CIRCLE:
+            gOled.clearDisplay();
             for (std::size_t y = 0; y < 64; y++) {
                 for (std::size_t x = 0; x < 128; x++) {
                     const std::size_t bit_idx = y * 128 + x;
@@ -82,6 +81,7 @@ void screen_run() {
                     gOled.drawPixel(x, y, (circle_image[buf_idx] >> sub_idx) & 1);
                 }
             }
+            gOled.display();
             break;
     }
 }
